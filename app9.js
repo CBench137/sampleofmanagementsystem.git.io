@@ -22,7 +22,7 @@
         desc.textContent = video.Description;
         container.appendChild(title);
         container.appendChild(desc);
-        // YouTube or shorturl or mp4
+        // YouTube or shorturl
         if (video.longurl && video.longurl.match(/youtube\.com|youtu\.be/)) {
             var iframe = document.createElement('iframe');
             iframe.width = '360';
@@ -33,11 +33,28 @@
             var embedUrl = video.longurl.replace('/shorts/', '/embed/').replace('watch?v=', 'embed/');
             iframe.src = embedUrl;
             container.appendChild(iframe);
-        } else if (video.longurl && video.longurl.match(/\.mp4$/i)) {
+        } else if (video.longurl && video.longurl.match(/\.mp4$/)) {
+            // Play .mp4 files, whether absolute or relative path
             var videoEl = document.createElement('video');
             videoEl.controls = true;
             videoEl.width = 360;
-            videoEl.src = video.longurl;
+            // If the path is relative (doesn't start with http), resolve relative to site root
+            if (!/^https?:\/\//.test(video.longurl) && !video.longurl.startsWith('/')) {
+                videoEl.src = '/' + video.longurl.replace(/^\.?\//, '');
+            } else {
+                videoEl.src = video.longurl;
+            }
+            container.appendChild(videoEl);
+        } else if (video.shorturl && video.shorturl.match(/\.mp4$/)) {
+            // Also support .mp4 in shorturl field
+            var videoEl = document.createElement('video');
+            videoEl.controls = true;
+            videoEl.width = 360;
+            if (!/^https?:\/\//.test(video.shorturl) && !video.shorturl.startsWith('/')) {
+                videoEl.src = '/' + video.shorturl.replace(/^\.?\//, '');
+            } else {
+                videoEl.src = video.shorturl;
+            }
             container.appendChild(videoEl);
         } else if (video.shorturl) {
             var a = document.createElement('a');
