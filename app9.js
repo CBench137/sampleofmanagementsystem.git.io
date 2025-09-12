@@ -22,20 +22,8 @@
         desc.textContent = video.Description;
         container.appendChild(title);
         container.appendChild(desc);
-        // Play .mp4 if present in longurl or shorturl
-        var mp4Url = '';
-        if (video.longurl && video.longurl.match(/\.mp4$/i)) {
-            mp4Url = video.longurl;
-        } else if (video.shorturl && video.shorturl.match(/\.mp4$/i)) {
-            mp4Url = video.shorturl;
-        }
-        if (mp4Url) {
-            var videoEl = document.createElement('video');
-            videoEl.controls = true;
-            videoEl.width = 360;
-            videoEl.src = mp4Url;
-            container.appendChild(videoEl);
-        } else if (video.longurl && video.longurl.match(/youtube\.com|youtu\.be/)) {
+        // YouTube or shorturl or mp4
+        if (video.longurl && video.longurl.match(/youtube\.com|youtu\.be/)) {
             var iframe = document.createElement('iframe');
             iframe.width = '360';
             iframe.height = '215';
@@ -45,6 +33,12 @@
             var embedUrl = video.longurl.replace('/shorts/', '/embed/').replace('watch?v=', 'embed/');
             iframe.src = embedUrl;
             container.appendChild(iframe);
+        } else if (video.longurl && video.longurl.match(/\.mp4$/i)) {
+            var videoEl = document.createElement('video');
+            videoEl.controls = true;
+            videoEl.width = 360;
+            videoEl.src = video.longurl;
+            container.appendChild(videoEl);
         } else if (video.shorturl) {
             var a = document.createElement('a');
             a.href = video.shorturl;
