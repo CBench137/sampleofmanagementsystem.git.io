@@ -33,28 +33,37 @@
             var embedUrl = video.longurl.replace('/shorts/', '/embed/').replace('watch?v=', 'embed/');
             iframe.src = embedUrl;
             container.appendChild(iframe);
-        } else if (video.longurl && video.longurl.match(/\.mp4$/)) {
+        } else if (video.longurl && video.longurl.match(/\.mp4$/i)) {
             // Play .mp4 files, whether absolute or relative path
             var videoEl = document.createElement('video');
             videoEl.controls = true;
             videoEl.width = 360;
-            // If the path is relative (doesn't start with http), resolve relative to site root
-            if (!/^https?:\/\//.test(video.longurl) && !video.longurl.startsWith('/')) {
-                videoEl.src = '/' + video.longurl.replace(/^\.?\//, '');
-            } else {
-                videoEl.src = video.longurl;
+            var src = video.longurl;
+            // If the path is relative (doesn't start with http or /), resolve relative to site root
+            if (!/^https?:\/\//i.test(src) && !src.startsWith('/')) {
+                src = '/' + src.replace(/^\.?\//, '');
             }
+            var source = document.createElement('source');
+            source.src = src;
+            source.type = 'video/mp4';
+            videoEl.appendChild(source);
+            // fallback text
+            videoEl.innerHTML += 'Your browser does not support the video tag.';
             container.appendChild(videoEl);
-        } else if (video.shorturl && video.shorturl.match(/\.mp4$/)) {
+        } else if (video.shorturl && video.shorturl.match(/\.mp4$/i)) {
             // Also support .mp4 in shorturl field
             var videoEl = document.createElement('video');
             videoEl.controls = true;
             videoEl.width = 360;
-            if (!/^https?:\/\//.test(video.shorturl) && !video.shorturl.startsWith('/')) {
-                videoEl.src = '/' + video.shorturl.replace(/^\.?\//, '');
-            } else {
-                videoEl.src = video.shorturl;
+            var src = video.shorturl;
+            if (!/^https?:\/\//i.test(src) && !src.startsWith('/')) {
+                src = '/' + src.replace(/^\.?\//, '');
             }
+            var source = document.createElement('source');
+            source.src = src;
+            source.type = 'video/mp4';
+            videoEl.appendChild(source);
+            videoEl.innerHTML += 'Your browser does not support the video tag.';
             container.appendChild(videoEl);
         } else if (video.shorturl) {
             var a = document.createElement('a');
