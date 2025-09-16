@@ -10,6 +10,7 @@ var data4StatusInfo = {
     description: "Akadevi Assignments Status-colored rows",
     emoji: "📝",
     columns: 6,
+      display: "hide" ,
     primaryKey: "Name",
     rowColors: {
                "Yunika Guragain": "red"

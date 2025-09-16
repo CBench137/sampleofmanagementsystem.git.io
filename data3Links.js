@@ -9,6 +9,7 @@ var data3LinksInfo = {
     description: "Non url links,repo documents links",
     emoji: "🔗",
     columns: 5,
+      display: "unhide" ,
     primaryKey: "ID"
 };
 

@@ -93,6 +93,7 @@ class DataApp {
         this.render();
     }
 
+
     toggleMultipleDatasets() {
         this.showMultipleDatasets = !this.showMultipleDatasets;
         if (this.showMultipleDatasets) {
