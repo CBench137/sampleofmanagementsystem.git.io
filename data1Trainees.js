@@ -13,6 +13,7 @@ var data1TraineesInfo = {
     rowColors: {
         "02": "green",
     },
-    display: "unhide" // set to "hide" to restrict access
+    display: "hide", // set to "hide" to restrict access
+    password:"1234"
 };
 
